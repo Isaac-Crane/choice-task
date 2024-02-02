@@ -8,7 +8,7 @@
  *
  **/
 
-jsPsych.plugins["html-button-response"] = (function() {
+jsPsych.plugins["html-image-button-response"] = (function() {
 
   var plugin = {};
 
@@ -32,7 +32,7 @@ jsPsych.plugins["html-button-response"] = (function() {
       button_html: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Button HTML',
-        default: '<button class="jspsych-btn">%choice%</button>',
+        default: '<button>%image%</button>',
         array: true,
         description: 'The html of the button. Can create own style.'
       },
@@ -72,11 +72,18 @@ jsPsych.plugins["html-button-response"] = (function() {
         default: true,
         description: 'If true, then trial will end when user responds.'
       },
+      images: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Images',
+        default: undefined,
+        array: true,
+        description: 'The links for the images.'
+      }
     }
   }
 
   plugin.trial = function(display_element, trial) {
-
+    console.log(trial.images)
     // display stimulus
     var html = '<div id="jspsych-html-button-response-stimulus">'+trial.stimulus+'</div>';
 
@@ -89,13 +96,14 @@ jsPsych.plugins["html-button-response"] = (function() {
         console.error('Error in html-button-response plugin. The length of the button_html array does not equal the length of the choices array');
       }
     } else {
-      for (var i = 0; i < trial.choices.length; i++) {
+      for (var i = 0; i < trial.images.length; i++) {
         buttons.push(trial.button_html);
       }
     }
     html += '<div id="jspsych-html-button-response-btngroup">';
-    for (var i = 0; i < trial.choices.length; i++) {
-      var str = buttons[i].replace(/%choice%/g, trial.choices[i]);
+    for (var i = 0; i < trial.images.length; i++) {
+      var str = buttons[i].replace(/%image%/g, '<img src="'+trial.images[i]+'" style="height: 255px; display: block">');
+      console.log(str)
       html += '<div class="jspsych-html-button-response-button" style="display: inline-block; margin:'+trial.margin_vertical+' '+trial.margin_horizontal+'" id="jspsych-html-button-response-button-' + i +'" data-choice="'+i+'">'+str+'</div>';
     }
     html += '</div>';
@@ -104,6 +112,7 @@ jsPsych.plugins["html-button-response"] = (function() {
     if (trial.prompt !== null) {
       html += trial.prompt;
     }
+    console.log(html)
     display_element.innerHTML = html;
 
     // start time
