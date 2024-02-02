@@ -1,3 +1,12 @@
+var preload = {
+	type: 'preload',
+		message: 'Loading',
+		images: imagesToPreload(),
+		max_load_time: 120000,
+		show_detailed_errors: true,
+		continue_after_error: true
+}
+
 var image_presentation = {
 	type: 'html-image-button-response',
 	stimulus: 'Make a choice',
@@ -10,7 +19,7 @@ var image_presentation = {
 		}
 	},
 	choices: ['hello', 'goodbye'],
-	data:{task: 'instructions1'},
+	data:{task: 'image_presentation'},
 }
 
 var image_presentation_setup = {
@@ -20,7 +29,7 @@ var image_presentation_setup = {
 
 
 
-timeline_order = [image_presentation_setup]
+timeline_order = [preload, image_presentation_setup]
 
 jsPsych.init({
 	timeline: timeline_order,

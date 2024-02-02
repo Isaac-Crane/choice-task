@@ -9,6 +9,17 @@ function stimuli(){
 	return finalStimuliArray
 }
 
+function imagesToPreload(){
+	arrays = returnArrays()
+	scenes = shuffle(arrays[0].concat(arrays[1]))
+	faces = shuffle(arrays[2].concat(arrays[3]))
+	all = scenes.concat(faces)
+	preload_array = []
+	for (i = 0; i < all.length; i++){
+		preload_array.push(all[i].path)
+	}
+	return preload_array
+}
 
 function shuffle(array) {
 	let currentIndex = array.length,  randomIndex;
